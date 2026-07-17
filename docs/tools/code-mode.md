@@ -525,8 +525,11 @@ export default defineToolPlugin({
 For `api.registerTool(...)` or a factory tool, put the same `outputSchema`
 property on the returned `AnyAgentTool` object.
 
-Built-in tools can reuse their owning protocol schema instead of duplicating a
-model-only contract. For example, the conversation tools expose the same
+Contracted built-in tools include `web_fetch` and the conversation tools.
+`web_fetch` owns a tool-local result schema; its compact hint exposes stable
+metadata, text, cache state, and nested spill metadata. Built-in tools can also
+reuse their owning protocol schema instead of duplicating a model-only contract.
+For example, the conversation tools expose the same
 Gateway result schemas used by `conversations.list`, `conversations.send`, and
 `conversations.turn`. When the quick index declares the fields, one cell can
 compose discovery and delivery without a separate inspection turn:
