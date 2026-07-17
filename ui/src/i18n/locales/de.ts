@@ -87,6 +87,10 @@ export const de: TranslationMap = {
     logout: "Abmelden",
     skipToMainContent: "Zum Hauptinhalt springen",
   },
+  optionCard: {
+    recommended: "Empfohlen",
+    skip: "Vorerst überspringen",
+  },
   nativeLinkMenu: {
     label: "Link-Aktionen",
     openInline: "In der Seitenleiste öffnen",
@@ -1714,6 +1718,7 @@ export const de: TranslationMap = {
     skillWorkshop: "Skill Workshop",
     nodes: "Geräte",
     chat: "Chat",
+    custodian: "OpenClaw",
     config: "Konfiguration",
     profile: "Profil",
     communications: "Kommunikation",
@@ -1748,6 +1753,7 @@ export const de: TranslationMap = {
       "Vorschläge prüfen, verfeinern und anwenden, bevor sie zu aktiven Skills werden.",
     nodes: "Gekoppelte Geräte, Fähigkeiten und Befehlsfreigabe.",
     chat: "Direkte Gateway-Chat-Sitzung für schnelle Eingriffe.",
+    custodian: "Systemeinrichtung und Pflege.",
     config: "~/.openclaw/openclaw.json sicher bearbeiten.",
     profile: "Die Statistiken, Serien und das Leben deines Agenten im Riff.",
     communications: "Kanäle, Nachrichten und Audioeinstellungen.",
@@ -1914,6 +1920,21 @@ export const de: TranslationMap = {
       doneBody:
         "{migrated} migriert, {skipped} übersprungen. Sie können mit der Einrichtung von OpenClaw fortfahren.",
     },
+  },
+  custodian: {
+    title: "OpenClaw",
+    subtitle: "Ihr Leitfaden zur Systemeinrichtung",
+    exitSetup: "Einrichtung beenden",
+    placeholder: "Nachricht an OpenClaw…",
+    sensitivePlaceholder: "Vertraulichen Wert eingeben…",
+    sensitiveReply: "Vertrauliche Antwort gesendet",
+    send: "Senden",
+    thinking: "OpenClaw denkt nach",
+    requestFailed: "OpenClaw konnte nicht antworten. Versuchen Sie es erneut.",
+    connectionChanged:
+      "Die Gateway-Verbindung hat sich geändert. Wiederholen Sie den Vorgang, um diese Einrichtung fortzusetzen.",
+    unsupportedGateway:
+      "Aktualisieren Sie das Gateway, um die Einrichtung mit OpenClaw fortzusetzen.",
   },
   mcpPage: {
     manageServersLink: "Server auf der Plugins-Seite verwalten.",
@@ -3795,6 +3816,17 @@ export const de: TranslationMap = {
       title: "Codex benötigt Eingaben",
       other: "Andere Antwort eingeben",
       submit: "Antwort senden",
+      eyebrow: "Frage",
+      cardLabel: "Frage vom Assistenten",
+      timeRemaining: "Verbleibende Zeit",
+      ownAnswer: "Ihre eigene Antwort…",
+      ownAnswerFor: "Ihre eigene Antwort für {header}",
+      submitting: "Wird gesendet…",
+      submitFailed: "Senden fehlgeschlagen: {error}",
+      answered: "Beantwortet",
+      answeredElsewhere: "Anderswo beantwortet",
+      expired: "Abgelaufen",
+      cancelled: "Abgebrochen",
     },
     messages: {
       activity: "Aktivität",
