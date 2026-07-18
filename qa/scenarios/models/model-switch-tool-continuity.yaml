@@ -7,7 +7,7 @@ scenario:
     primary:
       - models.switching
     secondary:
-      - runtime.tool-continuity
+      - agent-runtime-and-provider-execution.tool-call-handling.tool-continuity
   objective: Verify switching models preserves session context and tool use instead of dropping into plain-text only behavior.
   successCriteria:
     - Alternate model is actually requested.

@@ -250,13 +250,15 @@ describe("qa coverage report", () => {
     expect(personalPack?.coverageIds).toContain("personal.redaction");
     expect(observabilityPack?.missingScenarioIds).toStrictEqual([]);
     expect(observabilityPack?.scenarioIds).toEqual(["otel-trace-smoke", "docker-prometheus-smoke"]);
-    expect(observabilityPack?.coverageIds).toContain("telemetry.prometheus");
+    expect(observabilityPack?.coverageIds).toContain(
+      "telemetry-diagnostics-and-observability.prometheus-text-exposition",
+    );
     expect(
       expectDefined(inventory.byTheme.memory, "memory QA theme").map((coverage) => coverage.id),
-    ).toContain("memory.recall");
+    ).toContain("session-memory-and-context-engine.memory-search-and-store-tools.recall");
     expect(
       expectDefined(inventory.bySurface.memory, "memory QA surface").map((coverage) => coverage.id),
-    ).toContain("memory.recall");
+    ).toContain("session-memory-and-context-engine.memory-search-and-store-tools.recall");
   });
 
   it("rejects duplicate ownership across YAML and non-YAML catalogs", () => {
@@ -307,7 +309,7 @@ describe("qa coverage report", () => {
     expect(report).toContain("- Inventory refs:");
     expect(report).toContain("- Scenario coverage IDs:");
     expect(report).toContain(
-      "- browser-automation-and-exec-sandbox-tools.tool-invocation-and-execution (browser-automation-and-exec-sandbox-tools / Tool Invocation and Execution; partial): profiles: all, release, smoke-ci; coverage IDs:",
+      "- browser-automation-and-exec-sandbox-tools.tool-invocation-and-execution (browser-automation-and-exec-sandbox-tools / Tool Invocation and Execution; partial): profiles: all, release; coverage IDs:",
     );
     expect(report).toContain("primary:playwright:ui/src/e2e/chat-flow.e2e.test.ts (ui.control)");
     expect(report).not.toContain("### Unknown Scenario Coverage IDs");
@@ -525,7 +527,7 @@ describe("qa coverage report", () => {
     );
   });
 
-  it("counts each required taxonomy coverage ID once across categories", () => {
+  it("rejects one coverage ID assigned to different exact features", () => {
     const taxonomy: QaMaturityTaxonomy = {
       ...testMaturityTaxonomy(),
       profiles: [
@@ -534,10 +536,7 @@ describe("qa coverage report", () => {
           description: "Test release profile.",
           includeAllCategories: false,
           channelDriver: "qa-channel",
-          categoryIds: [
-            "agent-runtime-and-provider-execution.agent-turn-execution",
-            "agent-runtime-and-provider-execution.tool-execution-controls",
-          ],
+          categoryIds: ["agent-runtime-and-provider-execution.agent-turn-execution"],
         },
       ],
       surfaces: [
@@ -555,18 +554,9 @@ describe("qa coverage report", () => {
               search_anchors: [],
               features: [
                 {
-                  name: "shared plus unique",
+                  name: "shared",
                   coverageIds: [TEST_EXECUTABLE_COVERAGE_ID, TEST_WEBCHAT_COVERAGE_ID],
                 },
-              ],
-            },
-            {
-              id: "tool-execution-controls",
-              name: "Tool Execution Controls",
-              category_note: "tool-execution-controls.md",
-              docs: [],
-              search_anchors: [],
-              features: [
                 {
                   name: "shared",
                   coverageIds: [TEST_EXECUTABLE_COVERAGE_ID],
@@ -577,21 +567,15 @@ describe("qa coverage report", () => {
         },
       ],
     };
-    const report = buildQaScorecardTaxonomyReport({
-      taxonomy,
-      repoRoot: process.cwd(),
-      scenarios: [
-        scenarioWithCoverage({
-          primary: [TEST_EXECUTABLE_COVERAGE_ID],
-          secondary: [TEST_WEBCHAT_COVERAGE_ID],
-          sourcePath: "qa/scenarios/channels/dm-chat-baseline.yaml",
-        }),
-      ],
-    });
-
-    expect(report.requiredCoverageIdCount).toBe(2);
-    expect(report.inventoriedCoverageIdCount).toBe(1);
-    expect(report.coverageIdInventoryPercent).toBe(50);
+    expect(() =>
+      buildQaScorecardTaxonomyReport({
+        taxonomy,
+        repoRoot: process.cwd(),
+        scenarios: [],
+      }),
+    ).toThrow(
+      `coverage ID ${TEST_EXECUTABLE_COVERAGE_ID} already belongs to agent-runtime-and-provider-execution.agent-turn-execution feature shared; coverage IDs must identify exactly one taxonomy feature`,
+    );
   });
 
   it("inventories script producer declarations", () => {

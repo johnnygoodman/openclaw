@@ -7,7 +7,7 @@ scenario:
     primary:
       - runtime.turn-ordering
     secondary:
-      - channels.group-messages
+      - channels.group-channel-allowlists
   objective: Verify blocked secondary-actor traffic does not poison a later allowlisted driver turn.
   successCriteria:
     - The observer turn remains unanswered.

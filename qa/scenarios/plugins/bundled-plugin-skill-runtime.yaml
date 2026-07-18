@@ -5,7 +5,7 @@ scenario:
   surface: skills
   coverage:
     primary:
-      - plugins.skills
+      - plugin-sdk-and-bundled-plugin-architecture.runtime-activation.skills
     secondary:
       - plugins.runtime
   objective: Verify packaged bundled plugin skills load from dist-runtime instead of being skipped by path-containment checks.

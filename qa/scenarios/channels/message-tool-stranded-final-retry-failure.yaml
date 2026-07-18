@@ -7,8 +7,8 @@ scenario:
     primary:
       - channels.direct-visible-replies
     secondary:
-      - channels.qa-channel
-      - tools.message
+      - channel-framework.automatic-final-reply-delivery.qa-channel
+      - channel-framework.automatic-final-reply-delivery.message
   objective: Prove #85714 retry exhaustion is fail-closed and visible. If the one stranded-final recovery retry also omits message(action=send), OpenClaw must deliver only a sanitized diagnostic and must not leak the original private final text.
   gatewayConfigPatch:
     messages:

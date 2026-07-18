@@ -7,7 +7,7 @@ scenario:
     primary:
       - runtime.hosted-tool-use
     secondary:
-      - plugins.plugin-tools
+      - plugin-sdk-and-bundled-plugin-architecture.tool-plugins.plugin-tools
       - tools.invocation
   objective: Verify the Tool Search gateway QA Lab flow keeps a large plugin-owned tool catalog behind the compact bridge while still invoking the selected plugin tool.
   successCriteria:

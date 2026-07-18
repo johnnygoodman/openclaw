@@ -255,6 +255,7 @@ const qaMaturityTaxonomySchema = z
     }
 
     const categoryIds = new Set<string>();
+    const coverageIdOwners = new Map<string, { key: string; label: string }>();
     const surfaceIds = new Set<string>();
     for (const [surfaceIndex, surface] of taxonomy.surfaces.entries()) {
       if (surfaceIds.has(surface.id)) {
@@ -277,6 +278,34 @@ const qaMaturityTaxonomySchema = z
         }
         localCategoryIds.add(category.id);
         categoryIds.add(`${surface.id}.${category.id}`);
+
+        for (const [featureIndex, feature] of category.features.entries()) {
+          const featureOwner = {
+            key: `${surfaceIndex}.${categoryIndex}.${featureIndex}`,
+            label: `${surface.id}.${category.id} feature ${feature.name}`,
+          };
+          for (const [coverageIdIndex, coverageId] of feature.coverageIds.entries()) {
+            const existingOwner = coverageIdOwners.get(coverageId);
+            if (existingOwner && existingOwner.key !== featureOwner.key) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: [
+                  "surfaces",
+                  surfaceIndex,
+                  "categories",
+                  categoryIndex,
+                  "features",
+                  featureIndex,
+                  "coverageIds",
+                  coverageIdIndex,
+                ],
+                message: `coverage ID ${coverageId} already belongs to ${existingOwner.label}; coverage IDs must identify exactly one taxonomy feature`,
+              });
+              continue;
+            }
+            coverageIdOwners.set(coverageId, featureOwner);
+          }
+        }
       }
     }
 

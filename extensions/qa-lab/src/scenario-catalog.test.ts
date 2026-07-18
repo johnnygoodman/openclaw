@@ -120,7 +120,9 @@ describe("qa scenario catalog", () => {
           ),
       ),
     ).toBe(true);
-    expect(readQaScenarioById("memory-recall").coverage?.primary).toContain("memory.recall");
+    expect(readQaScenarioById("memory-recall").coverage?.primary).toEqual([
+      "session-memory-and-context-engine.memory-search-and-store-tools.recall",
+    ]);
   });
 
   it("exposes bootstrap data from the YAML pack", () => {
@@ -522,8 +524,8 @@ describe("qa scenario catalog", () => {
     const scenario = readQaScenarioById("update-run-package-self-upgrade");
 
     expect(scenario.sourcePath).toBe("qa/scenarios/runtime/update-run-package-self-upgrade.yaml");
-    expect(scenario.coverage?.primary).toContain("runtime.update-run");
-    expect(scenario.coverage?.secondary).toContain("runtime.package-update");
+    expect(scenario.coverage?.primary).toEqual(["cli.update-status-and-rpc"]);
+    expect(scenario.coverage?.secondary).toEqual(["cli.managed-gateway-restart"]);
     expect(scenario.execution.kind).toBe("script");
     if (scenario.execution.kind !== "script") {
       throw new Error(`expected script execution, got ${scenario.execution.kind}`);
@@ -579,7 +581,7 @@ describe("qa scenario catalog", () => {
   it("loads Codex plugin lifecycle scenarios into the standard runtime tier", () => {
     const coldInstall = readQaScenarioById("codex-plugin-cold-install");
     expect(coldInstall.runtimeParityTier).toBe("standard");
-    expect(coldInstall.coverage?.primary).toContain("runtime.codex-plugin.lifecycle");
+    expect(coldInstall.coverage?.primary).toEqual(["plugins.hot-install"]);
     expect(coldInstall.coverage?.secondary).toBeUndefined();
     expect(coldInstall.execution.kind).toBe("script");
 
@@ -607,8 +609,12 @@ describe("qa scenario catalog", () => {
       kind: "vitest",
       path: "test/e2e/qa-lab/runtime/codex-auth-doctor-migration-product-proof.e2e.test.ts",
     });
-    expect(scenario.coverage?.primary).toContain("runtime.doctor-repair");
-    expect(scenario.coverage?.secondary).toContain("runtime.codex-plugin.auth");
+    expect(scenario.coverage?.primary).toEqual([
+      "openai-codex-provider-path.codex-oauth-profiles.doctor-repair",
+    ]);
+    expect(scenario.coverage?.secondary).toEqual([
+      "telemetry-diagnostics-and-observability.openclaw-doctor.codex-plugin-auth",
+    ]);
   });
 
   it("routes the Codex mixed-profile row through the product-backed Vitest", () => {
@@ -620,8 +626,13 @@ describe("qa scenario catalog", () => {
       kind: "vitest",
       path: "test/e2e/qa-lab/runtime/codex-auth-product-proof.e2e.test.ts",
     });
-    expect(scenario.coverage?.primary).toContain("runtime.codex-plugin.auth");
-    expect(scenario.coverage?.secondary).toContain("runtime.doctor-repair");
+    expect(scenario.coverage?.primary).toEqual([
+      "openai-codex-provider-path.codex-oauth-profiles.codex-plugin-auth",
+    ]);
+    expect(scenario.coverage?.secondary).toEqual([
+      "auth-profiles.provider-selection",
+      "openai-codex-provider-path.codex-oauth-profiles.doctor-repair",
+    ]);
   });
 
   it("keeps the character eval scenario natural and task-shaped", () => {
@@ -1006,7 +1017,8 @@ describe("qa scenario catalog", () => {
     const flow = JSON.stringify(scenario.execution.flow);
 
     expect(scenario.sourcePath).toBe("qa/scenarios/memory/dreaming-shadow-trial-report.yaml");
-    expect(scenario.coverage?.primary).toContain("memory.dreaming");
+    expect(scenario.coverage?.primary).toEqual(["tools.fs.write"]);
+    expect(scenario.coverage?.secondary).toEqual(["tools.fs.read"]);
     expect(config?.prompt).toContain("Dreaming shadow trial report check");
     expect(config?.reportName).toBe("dreaming-shadow-trial-report.md");
     expect(config?.seededMemory).toBe("# Memory\n\n");
@@ -1023,7 +1035,12 @@ describe("qa scenario catalog", () => {
   it("enables Telegram previews for channel streaming evidence", () => {
     const scenario = readQaScenarioById("channel-message-flows");
 
-    expect(scenario.coverage?.primary).toContain("channels.streaming");
+    expect(scenario.coverage?.primary).toEqual([
+      "agent-runtime-and-provider-execution.streaming-replies",
+    ]);
+    expect(scenario.coverage?.secondary).toEqual([
+      "agent-runtime-and-provider-execution.streaming-replies.delivery",
+    ]);
     expect(scenario.gatewayConfigPatch).toMatchObject({
       channels: { telegram: { streaming: { mode: "partial" } } },
     });

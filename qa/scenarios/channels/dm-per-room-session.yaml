@@ -5,7 +5,7 @@ scenario:
   surface: dm
   coverage:
     primary:
-      - channels.dm
+      - matrix.inbound-route-selection-across-sender-bound-dms
       - memory.session-key-construction
   objective: Verify Matrix dm.sessionScope=per-room isolates two DM rooms and suppresses the shared-session notice.
   gatewayConfigPatch:

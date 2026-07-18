@@ -5,10 +5,9 @@ scenario:
   surface: memory
   coverage:
     primary:
-      - memory.dreaming
+      - tools.fs.write
     secondary:
-      - memory.promotion
-      - qa.artifact-safety
+      - tools.fs.read
   risk: medium
   capabilities:
     - tools.read

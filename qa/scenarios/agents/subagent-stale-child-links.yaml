@@ -6,6 +6,7 @@ scenario:
   coverage:
     primary:
       - agents.subagents
+      - agent-runtime-and-provider-execution.subagent-turns.subagents
     secondary:
       - gateway.sessions-list
   objective: Verify restarted gateways hide stale persisted subagent child links without hiding live or fresh children.

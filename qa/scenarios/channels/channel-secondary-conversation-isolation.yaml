@@ -5,7 +5,7 @@ scenario:
   surface: channels
   coverage:
     primary:
-      - channels.group-messages
+      - channel-framework.group-channel-session-isolation.group-messages
     secondary:
       - runtime.turn-ordering
   objective: Verify a reply in a secondary conversation stays isolated from the primary conversation.

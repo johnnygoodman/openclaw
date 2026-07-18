@@ -7,8 +7,8 @@ scenario:
     primary:
       - channels.direct-visible-replies
     secondary:
-      - channels.qa-channel
-      - tools.message
+      - channel-framework.automatic-final-reply-delivery.qa-channel
+      - channel-framework.automatic-final-reply-delivery.message
   objective: Reproduce #85714 end to end under messages.visibleReplies=message_tool. A long private final reply that never calls the message tool must warn, enqueue one recovery retry by default, and deliver the original reply via message(action=send).
   gatewayConfigPatch:
     messages:
